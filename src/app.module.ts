@@ -1,19 +1,33 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Usuario } from './typeorm/entities/Usuario';
+import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'testuser',
-      password: 'testuser123',
-      database: 'cloccide_nube_nest',
-      entities: [Usuario],
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      autoLoadEntities: true,
       synchronize: true,
+      ssl: process.env.DATABASE_SSL === 'true',
+      extra: {
+        ssl:
+          process.env.DATABASE_SSL === 'true'
+            ? {
+                rejectUnauthorized: false,
+              }
+            : null,
+      },
     }),
+    UsersModule,
   ],
   controllers: [],
   providers: [],

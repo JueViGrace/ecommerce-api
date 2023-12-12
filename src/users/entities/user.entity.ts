@@ -1,21 +1,21 @@
-import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, Index } from 'typeorm';
 
-@Entity({ name: 'usuarios' })
-export class Usuario {
+@Entity()
+export class User {
   @Column({ length: 30 })
   nombre: string;
 
-  @PrimaryColumn({ length: 30, nullable: false })
+  @Column({ length: 30, nullable: false, primary: true })
   username: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 20, select: false })
   password: string;
 
   @Column({ length: 8 })
   @Index('vendedor')
   vendedor: string;
 
-  @Column({ length: 2 })
+  @Column({ length: 2, default: 0 })
   almacen: string;
 
   @Column({ default: 0 })
@@ -33,9 +33,12 @@ export class Usuario {
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: string;
 
-  @Column({ length: 30 })
+  @Column({ length: 30, default: '1.0.0' })
   version: string;
 
   @Column({ default: 0 })
   sesion: number;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
