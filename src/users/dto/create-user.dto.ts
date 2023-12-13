@@ -1,4 +1,5 @@
-import { IsNumber, IsString, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -8,6 +9,7 @@ export class CreateUserDto {
   @MinLength(4)
   username: string;
 
+  @Transform(({ value }) => value.trim())
   @IsString()
   @MinLength(4)
   password: string;
@@ -16,20 +18,34 @@ export class CreateUserDto {
   vendedor: string;
 
   @IsString()
+  @IsOptional()
   almacen?: string;
 
   @IsNumber()
+  @IsOptional()
   desactivo?: number;
 
   @IsString()
+  @IsOptional()
+  fechamodifi?: string;
+
+  @IsNumber()
+  @IsOptional()
+  ualterprec?: number;
+
+  @IsString()
+  @IsOptional()
   sesionactiva?: string;
 
   @IsString()
+  @IsOptional()
   ult_sinc?: string;
 
   @IsString()
+  @IsOptional()
   version?: string;
 
   @IsNumber()
+  @IsOptional()
   sesion?: number;
 }

@@ -1,34 +1,18 @@
-import { Column, DeleteDateColumn, Entity, Index } from 'typeorm';
+import { Column, DeleteDateColumn, Entity } from 'typeorm';
 
-@Entity()
-export class User {
-  @Column({ length: 30 })
+@Entity({ name: 'usuarios' })
+export class Usuario {
+  @Column({ length: 30, default: '' })
   nombre: string;
 
-  @Column({ length: 30, nullable: false, primary: true })
+  @Column({ length: 30, nullable: false, primary: true, default: '' })
   username: string;
 
-  @Column({ length: 20, select: false })
+  @Column({ length: 20, select: false, default: '' })
   password: string;
 
-  @Column({ length: 8 })
-  @Index('vendedor')
-  vendedor: string;
-
-  @Column({ length: 2, default: 0 })
-  almacen: string;
-
-  @Column({ default: 0 })
+  @Column({ type: 'double', precision: 2, scale: 0, default: 0 })
   desactivo: number;
-
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  fechamodifi: string;
-
-  @Column({ default: 0 })
-  ualterprec: number;
-
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  sesionactiva: string;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: string;
@@ -41,4 +25,20 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  // @Column({ length: 8, default: '' })
+  // @Index('vendedor')
+  // vendedor: string;
+
+  // @Column({ length: 2, default: 0 })
+  // almacen: string;
+
+  // @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  // fechamodifi: string;
+
+  // @Column({ type: 'double', precision: 2, scale: 0, default: 0 })
+  // ualterprec: number;
+
+  // @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  // sesionactiva: string;
 }
