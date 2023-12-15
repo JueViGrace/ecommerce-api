@@ -15,7 +15,7 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  vendedor: string;
+  codigo: string;
 
   @IsString()
   @IsOptional()

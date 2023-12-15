@@ -6,19 +6,19 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Usuario } from './entities/user.entity';
+import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(Usuario)
-    private readonly userRepository: Repository<Usuario>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.userRepository.findOneBy({
-      vendedor: createUserDto.vendedor,
+      codigo: createUserDto.codigo,
     });
 
     if (user) {

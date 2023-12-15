@@ -1,11 +1,22 @@
-import { Column, DeleteDateColumn, Entity } from 'typeorm';
+import { Roles } from 'src/common/enums/role.enum';
+import { Role } from 'src/roles/entities/role.entity';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 
 @Entity({ name: 'usuarios' })
-export class Usuario {
+export class User {
   @Column({ length: 30, default: '' })
   nombre: string;
 
-  @Column({ length: 30, nullable: false, primary: true, default: '' })
+  @Column({ length: 30, primary: true, default: '' })
+  codigo: string;
+
+  @Column({ length: 30, nullable: false, default: '' })
   username: string;
 
   @Column({ length: 20, select: false, default: '' })
@@ -23,22 +34,13 @@ export class Usuario {
   @Column({ default: 0 })
   sesion: number;
 
+  @OneToOne(() => Role, (role) => role.role)
+  @JoinColumn({ name: 'roleId', referencedColumnName: 'role' })
+  role: Role;
+
+  @Column({ default: Roles.CLIENTE })
+  roleId: string;
+
   @DeleteDateColumn()
   deletedAt: Date;
-
-  // @Column({ length: 8, default: '' })
-  // @Index('vendedor')
-  // vendedor: string;
-
-  // @Column({ length: 2, default: 0 })
-  // almacen: string;
-
-  // @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  // fechamodifi: string;
-
-  // @Column({ type: 'double', precision: 2, scale: 0, default: 0 })
-  // ualterprec: number;
-
-  // @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  // sesionactiva: string;
 }

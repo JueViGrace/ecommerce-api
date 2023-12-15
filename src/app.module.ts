@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { VendedoresModule } from './vendedores/vendedores.module';
 import { GerenciasModule } from './gerencias/gerencias.module';
+import { RolesModule } from './roles/roles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { GerenciasModule } from './gerencias/gerencias.module';
     UsersModule,
     VendedoresModule,
     GerenciasModule,
+    RolesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
