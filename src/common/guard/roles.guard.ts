@@ -3,7 +3,6 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import { RolesService } from 'src/roles/roles.service';
 import { Roles } from '../enums/role.enum';
