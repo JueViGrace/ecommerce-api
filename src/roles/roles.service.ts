@@ -32,7 +32,7 @@ export class RolesService {
     const roles = await this.roleRepository.findOneBy({ role });
 
     if (!roles) {
-      throw new BadRequestException('Cat not found');
+      throw new BadRequestException('Role not found');
     }
 
     return roles;

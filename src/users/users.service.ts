@@ -3,11 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserInterface } from 'src/common/interfaces/create-user.interface';
+import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
 
 @Injectable()
 export class UsersService {
@@ -16,19 +17,11 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const user = await this.userRepository.findOneBy({
-      codigo: createUserDto.codigo,
-    });
-
-    if (user) {
-      throw new BadRequestException('User already exists');
-    }
-
-    return await this.userRepository.save(createUserDto);
+  async create(createUserParams: CreateUserInterface) {
+    return this.userRepository.save(createUserParams);
   }
 
-  async findAll() {
+  async findAll(user: UserActiveInterface) {
     const users = this.userRepository.find();
 
     if (!users) {
@@ -38,8 +31,41 @@ export class UsersService {
     return users;
   }
 
+  findOneByEmail(email: string) {
+    return this.validateExistingUser(email);
+  }
+
   async findOne(username: string) {
-    const user = await this.userRepository.findOneBy({ username });
+    return await this.findUser(username);
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    await this.findUser(id);
+
+    return await this.userRepository.update(id, updateUserDto);
+  }
+
+  async remove(id: string) {
+    await this.findUser(id);
+    return await this.userRepository.softDelete(id);
+  }
+
+  private async validateExistingUser(value: string) {
+    const user = await this.userRepository.findOne({
+      where: [{ email: value }, { codigo: value }],
+    });
+
+    if (user) {
+      throw new BadRequestException('User already exists');
+    }
+
+    return user;
+  }
+
+  private async findUser(value: string) {
+    const user = await this.userRepository.findOne({
+      where: [{ email: value }, { codigo: value }],
+    });
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -48,14 +74,16 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.findOne(id);
+  async findUserWithPassword(value: string) {
+    const user = await this.userRepository.findOne({
+      where: [{ email: value }, { codigo: value }],
+      select: ['email', 'password', 'roleId'],
+    });
 
-    return await this.userRepository.update(id, updateUserDto);
-  }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-  async remove(id: string) {
-    await this.findOne(id);
-    return await this.userRepository.softDelete(id);
+    return user;
   }
 }

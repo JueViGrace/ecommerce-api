@@ -4,6 +4,7 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   OneToOne,
 } from 'typeorm';
@@ -13,13 +14,14 @@ export class User {
   @Column({ length: 30, default: '' })
   nombre: string;
 
-  @Column({ length: 30, primary: true, default: '' })
+  @Column({ length: 30, unique: true, default: '' })
+  @Index('codigo')
   codigo: string;
 
-  @Column({ length: 30, nullable: false, default: '' })
-  username: string;
+  @Column({ length: 30, nullable: false, primary: true })
+  email: string;
 
-  @Column({ length: 20, select: false, default: '' })
+  @Column({ select: false, default: '' })
   password: string;
 
   @Column({ type: 'double', precision: 2, scale: 0, default: 0 })
