@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -32,7 +36,7 @@ export class RolesService {
     const roles = await this.roleRepository.findOneBy({ role });
 
     if (!roles) {
-      throw new BadRequestException('Role not found');
+      throw new NotFoundException('Role not found');
     }
 
     return roles;
@@ -40,11 +44,11 @@ export class RolesService {
 
   async update(id: string, updateRoleDto: UpdateRoleDto) {
     await this.findOne(id);
-    return this.roleRepository.update(id, updateRoleDto);
+    return await this.roleRepository.update(id, updateRoleDto);
   }
 
   async remove(id: string) {
     await this.findOne(id);
-    return this.roleRepository.softDelete(id);
+    return await this.roleRepository.softDelete(id);
   }
 }

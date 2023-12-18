@@ -6,6 +6,9 @@ export class Role {
   @Column({ default: Roles.CLIENTE, primary: true })
   role: string;
 
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  fechamodifi: string;
+
   @DeleteDateColumn()
   deletedAt: Date;
 }

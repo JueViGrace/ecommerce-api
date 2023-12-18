@@ -10,7 +10,10 @@ import {
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { Auth } from 'src/common/decorators/auth.decorator';
+import { Roles } from 'src/common/enums/role.enum';
 
+@Auth(Roles.MASTER)
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}

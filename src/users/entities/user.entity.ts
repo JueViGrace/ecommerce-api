@@ -18,7 +18,7 @@ export class User {
   @Index('codigo')
   codigo: string;
 
-  @Column({ length: 30, nullable: false, primary: true })
+  @Column({ length: 30, primary: true })
   email: string;
 
   @Column({ select: false, default: '' })
@@ -29,6 +29,9 @@ export class User {
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: string;
+
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  fechamodifi: string;
 
   @Column({ length: 30, default: '1.0.0' })
   version: string;
