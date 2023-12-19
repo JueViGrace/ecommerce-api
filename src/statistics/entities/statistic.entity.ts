@@ -7,81 +7,81 @@ export class Statistic {
   @JoinColumn({ name: 'vendedor', referencedColumnName: 'codigo' })
   codigo: string;
 
-  @Column({ primary: true })
+  @Column({ primary: true, length: 8 })
   vendedor: string;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 0 })
   clivisit: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 0 })
   cntclientes: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 0 })
   cntfacturas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 0 })
   cntpedidos: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 0 })
   cntrecl: number;
 
-  @Column()
+  @Column({ length: 8 })
   codcoord: string;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   defdolTotneto: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   devdolTotneto: number;
 
-  @Column()
+  @Column({ type: 'date', default: '0001-01-01' })
   fechaEstad: string;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   lomMontovtas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   lomPrcvisit: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   lomPrcvtas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   metavend: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   mtofacturas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   mtopedidos: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   mtorecl: number;
 
-  @Column()
+  @Column({ length: 54 })
   nombrevend: string;
 
-  @Column()
+  @Column({ length: 54 })
   nomcoord: string;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   ppgdolTotneto: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   prcmeta: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   prcvisitas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   rlomMontovtas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   rlomPrcvisit: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   rlomPrcvtas: number;
 
-  @Column()
+  @Column({ type: 'double', precision: 24, scale: 7 })
   totdolcob: number;
 }

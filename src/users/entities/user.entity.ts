@@ -27,6 +27,9 @@ export class User {
   @Column({ type: 'double', precision: 2, scale: 0, default: 0 })
   desactivo: number;
 
+  @Column({ length: 8, default: '' })
+  supervpor: string;
+
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: string;
 

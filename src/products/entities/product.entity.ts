@@ -5,7 +5,7 @@ export class Product {
   @Column({ length: 30, primary: true })
   codigo: string;
 
-  @Column({ type: 'double', precision: 24, scale: 7 })
+  @Column({ type: 'double', precision: 24, scale: 0 })
   comprometido: number;
 
   @Column({ type: 'double', precision: 4, scale: 2 })
@@ -17,7 +17,7 @@ export class Product {
   @Column({ type: 'char', length: 1 })
   enpreventa: string;
 
-  @Column({ type: 'double', precision: 20, scale: 7 })
+  @Column({ type: 'double', precision: 20, scale: 0 })
   existencia: number;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
@@ -62,13 +62,13 @@ export class Product {
   @Column({ length: 15 })
   unidad: string;
 
-  @Column({ type: 'double', precision: 20, scale: 7 })
+  @Column({ type: 'double', precision: 20, scale: 0 })
   vta_max: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7 })
+  @Column({ type: 'double', precision: 20, scale: 0 })
   vta_min: number;
 
-  @Column({ type: 'double', precision: 15, scale: 3 })
+  @Column({ type: 'double', precision: 15, scale: 0 })
   vta_minenx: number;
 
   @Column()
