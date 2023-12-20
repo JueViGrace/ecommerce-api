@@ -4,8 +4,11 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 @Entity({ name: 'estadistica' })
 export class Statistic {
   @OneToOne(() => User, (user) => user.codigo)
-  @JoinColumn({ name: 'vendedor', referencedColumnName: 'codigo' })
-  codigo: string;
+  @JoinColumn({ name: 'usuario', referencedColumnName: 'codigo' })
+  user: User;
+
+  @Column({ primary: true })
+  usuario: string;
 
   @Column({ primary: true, length: 8 })
   vendedor: string;

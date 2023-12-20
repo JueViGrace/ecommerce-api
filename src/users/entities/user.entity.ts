@@ -42,6 +42,9 @@ export class User {
   @Column({ default: 0 })
   sesion: number;
 
+  @Column({ default: '' })
+  almacen: string;
+
   @OneToOne(() => Role, (role) => role.role)
   @JoinColumn({ name: 'roleId', referencedColumnName: 'role' })
   role: Role;
