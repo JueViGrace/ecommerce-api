@@ -25,7 +25,10 @@ export class RolesService {
       throw new BadRequestException('Role already exists');
     }
 
-    return await this.roleRepository.save(createRoleDto);
+    return await this.roleRepository.save({
+      ...createRoleDto,
+      createdAt: new Date(),
+    });
   }
 
   async findAll() {

@@ -6,6 +6,8 @@ import {
   IsOptional,
   IsNumber,
 } from 'class-validator';
+import { Auth } from 'src/common/decorators/auth.decorator';
+import { Roles } from 'src/common/enums/role.enum';
 
 export class UpdateUserDto {
   @Transform(({ value }) => value.trim())
@@ -29,6 +31,11 @@ export class UpdateUserDto {
   @MinLength(4)
   @IsOptional()
   password?: string;
+
+  @Transform(({ value }) => value.trim())
+  @IsNumber()
+  @IsOptional()
+  desactivo?: number;
 
   @Transform(({ value }) => value.trim())
   @IsString()
@@ -59,4 +66,10 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   almacen?: string;
+
+  @Auth(Roles.MASTER)
+  @Transform(({ value }) => value.trim())
+  @IsString()
+  @IsOptional()
+  roleId?: string;
 }

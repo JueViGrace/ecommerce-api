@@ -24,7 +24,10 @@ export class ProductsService {
     if (product) {
       throw new BadRequestException('Product already exists');
     }
-    return await this.productRepository.save(createProductDto);
+    return await this.productRepository.save({
+      ...createProductDto,
+      createdAt: new Date(),
+    });
   }
 
   async findAll() {

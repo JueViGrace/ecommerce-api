@@ -1,25 +1,25 @@
 export interface CreateUserInterface {
   nombre: string;
 
+  codigo: string;
+
   email: string;
 
   password: string;
 
-  codigo: string;
-
-  almacen?: string;
-
   desactivo?: number;
 
-  fechamodifi?: string;
-
-  ualterprec?: number;
-
-  sesionactiva?: string;
+  supervpor?: string;
 
   ult_sinc?: string;
+
+  fechamodifi?: Date;
+
+  createdAt?: Date;
 
   version?: string;
 
   sesion?: number;
+
+  almacen?: string;
 }

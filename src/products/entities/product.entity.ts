@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Column, DeleteDateColumn, Entity } from 'typeorm';
 
 @Entity({ name: 'articulo' })
 export class Product {
@@ -21,7 +21,13 @@ export class Product {
   existencia: number;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  fechamodifi: string;
+  fechamodifi: Date;
+
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  createdAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @Column({ length: 6 })
   grupo: string;

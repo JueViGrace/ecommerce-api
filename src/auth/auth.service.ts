@@ -18,6 +18,7 @@ export class AuthService {
     await this.usersService.create({
       ...registerDto,
       password: await bcryptjs.hash(registerDto.password, 10),
+      createdAt: new Date(),
     });
 
     return 'User created';

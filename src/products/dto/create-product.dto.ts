@@ -87,12 +87,6 @@ export class CreateProductDto {
   @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
-  @IsOptional()
-  fechamodifi?: string;
-
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsOptional()
   unidad?: string;
 
   @Transform(({ value }) => value.trim())

@@ -31,10 +31,13 @@ export class User {
   supervpor: string;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  ult_sinc: string;
+  ult_sinc: Date;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  fechamodifi: string;
+  fechamodifi: Date;
+
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  createdAt: Date;
 
   @Column({ length: 30, default: '1.0.0' })
   version: string;

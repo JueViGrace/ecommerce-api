@@ -7,7 +7,10 @@ export class Role {
   role: string;
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
-  fechamodifi: string;
+  fechamodifi: Date;
+
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  createdAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;

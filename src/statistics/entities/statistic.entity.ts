@@ -38,7 +38,7 @@ export class Statistic {
   devdolTotneto: number;
 
   @Column({ type: 'date', default: '0001-01-01' })
-  fechaEstad: string;
+  fechaEstad: Date;
 
   @Column({ type: 'double', precision: 24, scale: 7 })
   lomMontovtas: number;
