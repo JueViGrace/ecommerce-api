@@ -2,8 +2,14 @@ import { Column, DeleteDateColumn, Entity } from 'typeorm';
 
 @Entity({ name: 'articulo' })
 export class Product {
+  @Column({ default: '' })
+  categoryId: string;
+
   @Column({ length: 30, primary: true })
   codigo: string;
+
+  @Column({ default: '' })
+  productImage: string;
 
   @Column({ type: 'double', precision: 24, scale: 0 })
   comprometido: number;
@@ -23,7 +29,7 @@ export class Product {
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   fechamodifi: Date;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @Column({ type: 'datetime', default: Date.now() })
   createdAt: Date;
 
   @DeleteDateColumn()

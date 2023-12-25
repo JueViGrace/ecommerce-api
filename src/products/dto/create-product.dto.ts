@@ -31,6 +31,10 @@ export class CreateProductDto {
   subgrupo: string;
 
   @Transform(({ value }) => value.trim())
+  @IsString()
+  productImage: string;
+
+  @Transform(({ value }) => value.trim())
   @IsNumber()
   precio1: number;
 

@@ -9,7 +9,7 @@ export class Role {
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   fechamodifi: Date;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @Column({ type: 'datetime', default: Date.now() })
   createdAt: Date;
 
   @DeleteDateColumn()
