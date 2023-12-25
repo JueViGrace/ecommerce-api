@@ -8,6 +8,7 @@ import { ProductsModule } from './products/products.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { OrdersModule } from './orders/orders.module';
 import { DebtsModule } from './debts/debts.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { DebtsModule } from './debts/debts.module';
     StatisticsModule,
     OrdersModule,
     DebtsModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],
