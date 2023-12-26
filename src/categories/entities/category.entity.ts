@@ -8,7 +8,10 @@ export class Category {
   @Column({ default: '' })
   categoryImage: string;
 
-  @Column({ type: 'datetime', default: Date.now() })
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  fechamodifi: Date;
+
+  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   createdAt: Date;
 
   @DeleteDateColumn()

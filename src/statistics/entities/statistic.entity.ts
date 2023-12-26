@@ -3,8 +3,8 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity({ name: 'estadistica' })
 export class Statistic {
-  @OneToOne(() => User, (user) => user.codigo)
-  @JoinColumn({ name: 'usuario', referencedColumnName: 'codigo' })
+  @OneToOne(() => User, (user) => user.email)
+  @JoinColumn({ name: 'usuario', referencedColumnName: 'email' })
   user: User;
 
   @Column({ primary: true })

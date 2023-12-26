@@ -13,7 +13,7 @@ export interface CreateUserInterface {
 
   ult_sinc?: string;
 
-  fechamodifi?: Date;
+  fechamodifi?: string;
 
   createdAt?: Date;
 

@@ -31,8 +31,8 @@ export class UsersService {
     return users;
   }
 
-  findOneByEmail(email: string) {
-    return this.validateExistingUser(email);
+  findOneByEmail(_email: string, _codigo: string) {
+    return this.findExistingUser(_email, _codigo);
   }
 
   async findOne(username: string) {
@@ -42,17 +42,21 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findUser(id);
 
-    return await this.userRepository.update(id, updateUserDto);
+    return await this.userRepository.update(id, {
+      ...updateUserDto,
+      fechamodifi: new Date(),
+    });
   }
 
   async remove(id: string) {
     await this.findUser(id);
-    return await this.userRepository.softDelete(id);
+    await this.userRepository.softDelete(id);
+    return `User ${id} was deleted.`;
   }
 
-  private async validateExistingUser(value: string) {
+  private async findExistingUser(_email: string, _codigo: string) {
     const user = await this.userRepository.findOne({
-      where: [{ email: value }, { codigo: value }],
+      where: [{ email: _email }, { codigo: _codigo }],
     });
 
     if (user) {

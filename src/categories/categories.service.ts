@@ -1,26 +1,73 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
+
+  async create(createCategoryDto: CreateCategoryDto) {
+    await this.findExistingCategory(createCategoryDto.name);
+    return this.categoryRepository.save({
+      ...createCategoryDto,
+      createdAt: new Date(),
+      categoryImage: createCategoryDto.categoryImage.path,
+    });
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll() {
+    return this.categoryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string) {
+    return await this.findCategory(id);
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    await this.findCategory(id);
+
+    return await this.categoryRepository.update(id, {
+      ...updateCategoryDto,
+      fechamodifi: new Date(),
+      categoryImage: updateCategoryDto.categoryImage.path ?? '',
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    const category = await this.findCategory(id);
+
+    await this.categoryRepository.softDelete(category);
+
+    return `Category ${id} was deleted.`;
+  }
+
+  async findExistingCategory(id: string) {
+    const category = await this.categoryRepository.findOne({
+      where: [{ name: id }],
+    });
+
+    if (category) {
+      throw new BadRequestException(`Category ${id} already exists`);
+    }
+
+    return category;
+  }
+
+  async findCategory(id: string) {
+    const category = await this.categoryRepository.findOne({
+      where: [{ name: id }],
+    });
+
+    if (!category) {
+      throw new BadRequestException(`Category ${id} doesn't exists`);
+    }
+
+    return category;
   }
 }

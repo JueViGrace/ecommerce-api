@@ -105,4 +105,8 @@ export class CreateStatisticDto {
   @Transform(({ value }) => value.trim())
   @IsString()
   vendedor: string;
+
+  @Transform(({ value }) => value.trim())
+  @IsString()
+  user: string;
 }
