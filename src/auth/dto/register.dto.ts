@@ -19,4 +19,9 @@ export class RegisterDto {
   @IsString()
   @MinLength(4)
   password: string;
+
+  @Transform(({ value }) => value.trim())
+  @IsString()
+  @MinLength(4)
+  phone: string;
 }

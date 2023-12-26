@@ -11,6 +11,8 @@ export interface CreateUserInterface {
 
   supervpor?: string;
 
+  telefono: string;
+
   ult_sinc?: string;
 
   fechamodifi?: string;

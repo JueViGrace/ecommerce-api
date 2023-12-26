@@ -30,6 +30,9 @@ export class User {
   @Column({ length: 8, default: '' })
   supervpor: string;
 
+  @Column({ length: 30, default: '' })
+  telefono: string;
+
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: Date;
 

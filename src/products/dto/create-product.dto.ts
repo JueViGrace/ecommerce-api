@@ -35,10 +35,6 @@ export class CreateProductDto {
   productImage: string;
 
   // @Transform(({ value }) => value.trim())
-  @IsString()
-  category: string;
-
-  // @Transform(({ value }) => value.trim())
   @IsNumber()
   precio1: number;
 

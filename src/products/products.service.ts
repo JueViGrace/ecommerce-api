@@ -17,7 +17,7 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto) {
     await this.validateExistingProduct(
       createProductDto.codigo,
-      createProductDto.category,
+      createProductDto.grupo,
     );
     return await this.productRepository.save({
       ...createProductDto,

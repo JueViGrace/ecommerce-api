@@ -91,11 +91,8 @@ export class Product {
   createdAt: Date;
 
   @OneToMany(() => Category, (category) => category.name)
-  @JoinColumn({ name: 'category', referencedColumnName: 'name' })
+  @JoinColumn({ name: 'grupo', referencedColumnName: 'name' })
   categoryRel: Category;
-
-  @Column({ default: '' })
-  category: string;
 
   @Column({ default: '' })
   productImage: string;

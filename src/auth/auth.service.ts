@@ -22,6 +22,7 @@ export class AuthService {
       ...registerDto,
       password: await bcryptjs.hash(registerDto.password, 10),
       createdAt: new Date(),
+      telefono: registerDto.phone,
     });
 
     return 'User created';
