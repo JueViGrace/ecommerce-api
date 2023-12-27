@@ -26,7 +26,10 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productRepository.find();
+    const products = await this.productRepository.find();
+    return {
+      products: products,
+    };
   }
 
   async findOne(codigo: string) {

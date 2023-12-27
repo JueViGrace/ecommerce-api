@@ -25,7 +25,9 @@ export class AuthService {
       telefono: registerDto.phone,
     });
 
-    return 'User created';
+    return {
+      created: 'User created',
+    };
   }
 
   async login({ email, password }: LoginDto) {

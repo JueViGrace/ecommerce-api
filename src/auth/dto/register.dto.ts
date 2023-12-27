@@ -22,6 +22,6 @@ export class RegisterDto {
 
   @Transform(({ value }) => value.trim())
   @IsString()
-  @MinLength(4)
+  @MinLength(10)
   phone: string;
 }
