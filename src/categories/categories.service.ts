@@ -22,7 +22,13 @@ export class CategoriesService {
   }
 
   async findAll() {
-    return this.categoryRepository.find();
+    const categories = await this.categoryRepository.find();
+
+    const res = this.getCategories(categories);
+
+    return {
+      categories: res,
+    };
   }
 
   async findOne(id: string) {
@@ -69,5 +75,22 @@ export class CategoriesService {
     }
 
     return category;
+  }
+
+  private getCategories(value: any[]) {
+    if (Array.isArray(value)) {
+      value.forEach((element, index) => {
+        value[index] = this.resCategory(element);
+      });
+      return value;
+    }
+    return value;
+  }
+
+  private resCategory(value: Category) {
+    return {
+      name: value.name,
+      categoryImage: value.categoryImage,
+    };
   }
 }

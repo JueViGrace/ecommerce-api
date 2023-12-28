@@ -81,7 +81,21 @@ export class UsersService {
   async findUserWithPassword(value: string) {
     const user = await this.userRepository.findOne({
       where: [{ email: value }, { codigo: value }],
-      select: ['email', 'password', 'roleId'],
+      select: [
+        'nombre',
+        'email',
+        'codigo',
+        'telefono',
+        'createdAt',
+        'desactivo',
+        'supervpor',
+        'ult_sinc',
+        'version',
+        'sesion',
+        'almacen',
+        'roleId',
+        'password',
+      ],
     });
 
     if (!user) {

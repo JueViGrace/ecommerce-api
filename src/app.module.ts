@@ -46,4 +46,10 @@ import { CategoriesModule } from './categories/categories.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  /* configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TrimMiddleware)
+      .forRoutes({ method: RequestMethod.ALL, path: '/api/v1/' });
+  } */
+}
