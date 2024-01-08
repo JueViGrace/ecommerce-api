@@ -9,6 +9,7 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { OrdersModule } from './orders/orders.module';
 import { DebtsModule } from './debts/debts.module';
 import { CategoriesModule } from './categories/categories.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { CategoriesModule } from './categories/categories.module';
     OrdersModule,
     DebtsModule,
     CategoriesModule,
+    CartModule,
   ],
   controllers: [],
   providers: [],

@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from './bcrypt.service';
 import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
 import { UserDataInterface } from 'src/common/interfaces/user-data.interface';
+import { CartService } from 'src/cart/cart.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly bcryptService: BcryptService,
+    private readonly cartService: CartService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -30,6 +32,10 @@ export class AuthService {
       createdAt: new Date(),
     });
 
+    await this.cartService.create({
+      id: user.email,
+      createdAt: new Date(),
+    });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, deletedAt, fechamodifi, role, ..._user } = user;
 

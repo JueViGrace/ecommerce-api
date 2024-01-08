@@ -5,6 +5,7 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BcryptService } from './service/bcrypt.service';
+import { CartModule } from 'src/cart/cart.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { BcryptService } from './service/bcrypt.service';
       }),
       inject: [ConfigService],
     }),
+    CartModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, BcryptService],

@@ -1,3 +1,4 @@
+import { Cart } from 'src/cart/entities/cart.entity';
 import { Roles } from 'src/common/enums/role.enum';
 import { Role } from 'src/roles/entities/role.entity';
 import {
@@ -7,6 +8,7 @@ import {
   Index,
   JoinColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
@@ -57,6 +59,9 @@ export class User {
   @Column({ default: Roles.CLIENTE })
   @Index('role')
   roleId: string;
+
+  @OneToOne(() => Cart)
+  cart: Cart;
 
   @DeleteDateColumn()
   deletedAt: Date;
