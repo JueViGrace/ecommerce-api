@@ -5,6 +5,7 @@ import {
   MinLength,
   IsOptional,
   IsNumber,
+  IsBoolean,
 } from 'class-validator';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Roles } from 'src/common/enums/role.enum';
@@ -58,9 +59,9 @@ export class UpdateUserDto {
   version?: string;
 
   @Transform(({ value }) => value.trim())
-  @IsNumber()
+  @IsBoolean()
   @IsOptional()
-  sesion?: number;
+  sesion?: boolean;
 
   @Transform(({ value }) => value.trim())
   @IsString()

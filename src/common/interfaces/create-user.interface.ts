@@ -21,7 +21,7 @@ export interface CreateUserInterface {
 
   version?: string;
 
-  sesion?: number;
+  sesion?: boolean;
 
   almacen?: string;
 }

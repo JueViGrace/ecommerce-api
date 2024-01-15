@@ -8,7 +8,7 @@ export interface UserDataInterface {
   ult_sinc: Date;
   createdAt: Date;
   version: string;
-  sesion: number;
+  sesion: boolean;
   almacen: string;
   roleId: string;
 }

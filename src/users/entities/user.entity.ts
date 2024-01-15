@@ -43,8 +43,8 @@ export class User {
   @Column({ length: 30, default: '1.0.0' })
   version: string;
 
-  @Column({ default: 0 })
-  sesion: number;
+  @Column({ default: false })
+  sesion: boolean;
 
   @Column({ default: '' })
   almacen: string;
