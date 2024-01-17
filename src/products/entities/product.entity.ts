@@ -9,7 +9,7 @@ import {
 
 @Entity({ name: 'articulo' })
 export class Product {
-  @Column({ length: 30, primary: true })
+  @Column({ length: 30, primary: true, default: '' })
   codigo: string;
 
   @Column({ type: 'double', precision: 24, scale: 0, default: 0 })
@@ -92,7 +92,7 @@ export class Product {
 
   @OneToMany(() => Category, (category) => category.name)
   @JoinColumn({ name: 'grupo', referencedColumnName: 'name' })
-  categoryRel: Category;
+  category: Category;
 
   @Column({ default: '' })
   productImage: string;

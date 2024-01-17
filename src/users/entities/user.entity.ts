@@ -16,7 +16,8 @@ export class User {
   @Column({ length: 30, default: '' })
   nombre: string;
 
-  @Column({ length: 30, default: '' })
+  @Column({ length: 30, default: '', unique: true })
+  @Index('codigo')
   codigo: string;
 
   @Column({ length: 30, primary: true })
@@ -60,7 +61,7 @@ export class User {
   @Index('role')
   roleId: string;
 
-  @OneToOne(() => Cart)
+  @OneToOne(() => Cart, (cart) => cart.id)
   cart: Cart;
 
   @DeleteDateColumn()

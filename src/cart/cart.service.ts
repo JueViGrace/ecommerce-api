@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -46,8 +46,8 @@ export class CartService {
       where: [{ id }],
     });
 
-    if (!cart) {
-      throw new NotFoundException('Cart not found');
+    if (cart) {
+      await this.cartRepository.delete(cart.id);
     }
 
     return cart;

@@ -19,8 +19,6 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    console.log(registerDto);
-
     await this.usersService.findOneByEmail(
       registerDto.email,
       registerDto.codigo,
@@ -30,12 +28,14 @@ export class AuthService {
       ...registerDto,
       password: await this.bcryptService.passwordEncrypt(registerDto.password),
       createdAt: new Date(),
+      sesion: true,
     });
 
     await this.cartService.create({
       id: user.email,
       createdAt: new Date(),
     });
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, deletedAt, fechamodifi, role, ..._user } = user;
 

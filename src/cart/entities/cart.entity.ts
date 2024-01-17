@@ -11,7 +11,7 @@ export class Cart {
   @Column({ primary: true })
   id: string;
 
-  @OneToMany(() => Product, (product) => product.codigo, { eager: true })
+  @OneToMany(() => Product, (product) => product.codigo)
   @JoinColumn({ name: 'productId', referencedColumnName: 'codigo' })
   products: Product[];
 

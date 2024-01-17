@@ -2,7 +2,10 @@ import { Column, DeleteDateColumn, Entity } from 'typeorm';
 
 @Entity({ name: 'categorias' })
 export class Category {
-  @Column({ length: 30, primary: true })
+  @Column({ default: '', primary: true })
+  codigo: string;
+
+  @Column({ length: 30, default: '' })
   name: string;
 
   @Column({ default: '' })
