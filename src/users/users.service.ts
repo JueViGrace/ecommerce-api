@@ -1,8 +1,8 @@
-import { CartService } from './../cart/cart.service';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserInterface } from 'src/common/interfaces/create-user.interface';
 import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
+import { Roles } from 'src/common/enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -23,13 +24,17 @@ export class UsersService {
   }
 
   async findAll(user: UserActiveInterface) {
-    const users = this.userRepository.find();
+    if (user.role === Roles.MASTER || user.role === Roles.COORDINADOR) {
+      const users = this.userRepository.find();
 
-    if (!users) {
-      throw new NotFoundException('Users not found');
+      if (!users) {
+        throw new NotFoundException('Users not found');
+      }
+
+      return users;
+    } else {
+      throw new UnauthorizedException();
     }
-
-    return users;
   }
 
   findOneByEmail(_email: string, _codigo: string) {
