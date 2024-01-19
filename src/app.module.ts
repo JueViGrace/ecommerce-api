@@ -10,6 +10,8 @@ import { OrdersModule } from './orders/orders.module';
 import { DebtsModule } from './debts/debts.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CartModule } from './cart/cart.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/filters/exception.filter';
 
 @Module({
   imports: [
@@ -46,7 +48,12 @@ import { CartModule } from './cart/cart.module';
     CartModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {
   /* configure(consumer: MiddlewareConsumer) {
