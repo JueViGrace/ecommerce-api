@@ -1,6 +1,15 @@
 import { Product } from './../../products/entities/product.entity';
 import { User } from './../../users/entities/user.entity';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Cart {
@@ -18,11 +27,14 @@ export class Cart {
   @Column({ default: '' })
   productId: string;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @UpdateDateColumn()
   fechamodifi: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @Column({ default: 0 })
   status: number;

@@ -2,15 +2,12 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserInterface } from 'src/common/interfaces/create-user.interface';
-import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
-import { Roles } from 'src/common/enums/role.enum';
+import { CreateUserInterface } from 'src/users/interfaces/create-user.interface';
 
 @Injectable()
 export class UsersService {
@@ -23,18 +20,14 @@ export class UsersService {
     return this.userRepository.save(createUserParams);
   }
 
-  async findAll(user: UserActiveInterface) {
-    if (user.role === Roles.MASTER || user.role === Roles.COORDINADOR) {
-      const users = this.userRepository.find();
+  async findAll() {
+    const users = this.userRepository.find();
 
-      if (!users) {
-        throw new NotFoundException('Users not found');
-      }
-
-      return users;
-    } else {
-      throw new UnauthorizedException();
+    if (!users) {
+      throw new NotFoundException('Users not found');
     }
+
+    return users;
   }
 
   findOneByEmail(_email: string, _codigo: string) {
@@ -48,10 +41,7 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findUser(id);
 
-    return await this.userRepository.update(id, {
-      ...updateUserDto,
-      fechamodifi: new Date(),
-    });
+    return await this.userRepository.update(id, updateUserDto);
   }
 
   async remove(id: string) {

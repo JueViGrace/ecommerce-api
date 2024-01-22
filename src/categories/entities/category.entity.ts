@@ -1,4 +1,10 @@
-import { Column, DeleteDateColumn, Entity } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'categorias' })
 export class Category {
@@ -11,10 +17,10 @@ export class Category {
   @Column({ default: '' })
   categoryImage: string;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @DeleteDateColumn()

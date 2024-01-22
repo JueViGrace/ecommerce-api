@@ -15,10 +15,6 @@ export interface CreateUserInterface {
 
   ult_sinc?: string;
 
-  fechamodifi?: string;
-
-  createdAt?: Date;
-
   version?: string;
 
   sesion?: boolean;

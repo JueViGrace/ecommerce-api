@@ -6,7 +6,6 @@ export interface UserDataInterface {
   supervpor: string;
   telefono: string;
   ult_sinc: Date;
-  createdAt: Date;
   version: string;
   sesion: boolean;
   almacen: string;

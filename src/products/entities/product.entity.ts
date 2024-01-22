@@ -1,10 +1,12 @@
 import { Category } from 'src/categories/entities/category.entity';
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'articulo' })
@@ -27,7 +29,7 @@ export class Product {
   @Column({ type: 'double', precision: 20, scale: 0, default: 0 })
   existencia: number;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
   @DeleteDateColumn()
@@ -87,7 +89,7 @@ export class Product {
   @Column({ default: 0 })
   vta_solone: number;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @OneToMany(() => Category, (category) => category.name)

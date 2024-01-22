@@ -1,14 +1,16 @@
 import { Cart } from 'src/cart/entities/cart.entity';
-import { Roles } from 'src/common/enums/role.enum';
+import { Roles } from 'src/roles/enums/role.enum';
 import { Role } from 'src/roles/entities/role.entity';
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   OneToMany,
   OneToOne,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
@@ -38,7 +40,7 @@ export class User {
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: Date;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
   @Column({ length: 30, default: '1.0.0' })
@@ -50,7 +52,7 @@ export class User {
   @Column({ default: '' })
   almacen: string;
 
-  @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @OneToMany(() => Role, (role) => role.role)

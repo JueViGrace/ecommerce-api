@@ -14,8 +14,8 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Auth } from 'src/common/decorators/auth.decorator';
-import { Roles } from 'src/common/enums/role.enum';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Roles } from 'src/roles/enums/role.enum';
 import { CategoryPipe } from './pipes/category.pipe';
 
 @Controller('categories')

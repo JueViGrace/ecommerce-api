@@ -16,7 +16,6 @@ export class CategoriesService {
     await this.findExistingCategory(createCategoryDto.name);
     return this.categoryRepository.save({
       ...createCategoryDto,
-      createdAt: new Date(),
       categoryImage: createCategoryDto.categoryImage.path,
     });
   }
@@ -40,7 +39,6 @@ export class CategoriesService {
 
     return await this.categoryRepository.update(id, {
       ...updateCategoryDto,
-      fechamodifi: new Date(),
       categoryImage: updateCategoryDto.categoryImage.path ?? '',
     });
   }

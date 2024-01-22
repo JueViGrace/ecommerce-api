@@ -19,10 +19,7 @@ export class ProductsService {
       createProductDto.codigo,
       createProductDto.grupo,
     );
-    return await this.productRepository.save({
-      ...createProductDto,
-      createdAt: new Date(),
-    });
+    return await this.productRepository.save(createProductDto);
   }
 
   async findAll() {
@@ -41,9 +38,7 @@ export class ProductsService {
 
   async update(id: string, updateProductDto: UpdateProductDto) {
     await this.findOne(id);
-    return await this.productRepository.update(id, {
-      ...updateProductDto,
-    });
+    return await this.productRepository.update(id, updateProductDto);
   }
 
   async remove(id: string) {

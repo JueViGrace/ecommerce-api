@@ -7,8 +7,8 @@ import {
   IsNumber,
   IsBoolean,
 } from 'class-validator';
-import { Auth } from 'src/common/decorators/auth.decorator';
-import { Roles } from 'src/common/enums/role.enum';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Roles } from 'src/roles/enums/role.enum';
 
 export class UpdateUserDto {
   @Transform(({ value }) => value.trim())
@@ -47,11 +47,6 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   ult_sinc?: string;
-
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsOptional()
-  fechamodifi?: string;
 
   @Transform(({ value }) => value.trim())
   @IsString()

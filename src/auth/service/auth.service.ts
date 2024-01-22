@@ -5,8 +5,8 @@ import * as bcryptjs from 'bcryptjs';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from './bcrypt.service';
-import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
-import { UserDataInterface } from 'src/common/interfaces/user-data.interface';
+import { UserActiveInterface } from 'src/users/interfaces/user-active.interface';
+import { UserDataInterface } from 'src/users/interfaces/user-data.interface';
 import { CartService } from 'src/cart/cart.service';
 
 @Injectable()
@@ -27,13 +27,11 @@ export class AuthService {
     const user = await this.usersService.create({
       ...registerDto,
       password: await this.bcryptService.passwordEncrypt(registerDto.password),
-      createdAt: new Date(),
       sesion: true,
     });
 
     await this.cartService.create({
       id: user.email,
-      createdAt: new Date(),
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
