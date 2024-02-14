@@ -4,8 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToMany,
+  ManyToOne,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -28,15 +27,6 @@ export class Product {
 
   @Column({ type: 'double', precision: 20, scale: 0, default: 0 })
   existencia: number;
-
-  @UpdateDateColumn()
-  fechamodifi: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
-  @Column({ length: 20, default: '' })
-  grupo: string;
 
   @Column({ length: 20, default: '' })
   marca: string;
@@ -89,13 +79,18 @@ export class Product {
   @Column({ default: 0 })
   vta_solone: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @UpdateDateColumn({ select: false })
+  fechamodifi: Date;
 
-  @OneToMany(() => Category, (category) => category.name)
-  @JoinColumn({ name: 'grupo', referencedColumnName: 'name' })
-  category: Category;
+  @DeleteDateColumn({ select: false })
+  deletedAt: Date;
+
+  @CreateDateColumn({ select: false })
+  createdAt: Date;
 
   @Column({ default: '' })
   productImage: string;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  categories: Category;
 }

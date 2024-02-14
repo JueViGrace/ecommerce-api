@@ -11,6 +11,9 @@ import { DebtsModule } from '../debts/debts.module';
 import { CategoriesModule } from '../categories/categories.module';
 import { CartModule } from '../cart/cart.module';
 import { AppController } from './app.controller';
+import { TypeOrmService } from 'src/database/typeorm.service';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from 'src/shared/filters/exception.filter';
 
 @Module({
   imports: [
@@ -18,25 +21,8 @@ import { AppController } from './app.controller';
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      synchronize: Boolean(process.env.DB_SYNCHRONIZE),
-      logging: Boolean(process.env.DB_LOGGING),
-      autoLoadEntities: true,
-      ssl: process.env.DATABASE_SSL === 'true',
-      extra: {
-        ssl:
-          process.env.DATABASE_SSL === 'true'
-            ? {
-                rejectUnauthorized: false,
-              }
-            : null,
-      },
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmService,
     }),
     UsersModule,
     RolesModule,
@@ -49,12 +35,12 @@ import { AppController } from './app.controller';
     CartModule,
   ],
   controllers: [AppController],
-  /* providers: [
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
-  ], */
+  // providers: [
+  //   {
+  //     provide: APP_FILTER,
+  //     useClass: AllExceptionsFilter,
+  //   },
+  // ],
 })
 export class AppModule {
   /* configure(consumer: MiddlewareConsumer) {

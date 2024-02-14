@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserInterface } from 'src/users/interfaces/create-user.interface';
+import { Roles } from 'src/roles/enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,12 @@ export class UsersService {
   ) {}
 
   async create(createUserParams: CreateUserInterface) {
-    return this.userRepository.save(createUserParams);
+    return this.userRepository.save({
+      ...createUserParams,
+      role: {
+        role: Roles.CLIENTE,
+      },
+    });
   }
 
   async findAll() {
@@ -89,7 +95,6 @@ export class UsersService {
         'version',
         'sesion',
         'almacen',
-        'roleId',
         'password',
       ],
     });

@@ -17,9 +17,12 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto) {
     await this.validateExistingProduct(
       createProductDto.codigo,
-      createProductDto.grupo,
+      createProductDto.category.codigo,
     );
-    return await this.productRepository.save(createProductDto);
+
+    const product = this.productRepository.create(createProductDto);
+
+    return await this.productRepository.save(product);
   }
 
   async findAll() {
@@ -89,7 +92,6 @@ export class ProductsService {
       discont: value.discont,
       enpreventa: value.enpreventa.trim(),
       existencia: value.existencia,
-      grupo: value.grupo.trim(),
       marca: value.marca.trim(),
       nombre: value.nombre.trim(),
       precio1: value.precio1,

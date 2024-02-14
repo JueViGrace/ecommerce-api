@@ -6,6 +6,9 @@ export class Order {
   @OneToOne(() => User, (user) => user.email)
   user: User;
 
+  @Column({ primary: true, default: '' })
+  id: string;
+
   @Column({ default: '' })
   fechamodifi: string;
 }

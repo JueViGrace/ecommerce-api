@@ -35,7 +35,7 @@ export class AuthService {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, deletedAt, fechamodifi, role, ..._user } = user;
+    const { password, deletedAt, fechamodifi, ..._user } = user;
 
     return this.generateJWT(_user);
   }
@@ -52,14 +52,14 @@ export class AuthService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, deletedAt, fechamodifi, role, ..._user } = user;
+    const { password, ..._user } = user;
 
     return this.generateJWT(_user);
   }
 
   async generateJWT(user: UserDataInterface) {
     const payload: UserActiveInterface = {
-      role: user.roleId,
+      role: user.role.role,
       email: user.email,
     };
 

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app/app.module';
+import { TrimPipe } from './shared/pipes/trim.pipe';
 
 export const appSetup = (app: INestApplication) => {
   app.setGlobalPrefix('api/v1');
@@ -20,6 +21,7 @@ export const appSetup = (app: INestApplication) => {
         value: false,
       },
     }),
+    new TrimPipe(),
   );
 
   // app.useWebSocketAdapter(new WsAdapter(app));

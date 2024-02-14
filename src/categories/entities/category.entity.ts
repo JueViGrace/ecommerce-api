@@ -1,8 +1,10 @@
+import { Product } from 'src/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -17,12 +19,15 @@ export class Category {
   @Column({ default: '' })
   categoryImage: string;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   fechamodifi: Date;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
+
+  @OneToMany(() => Product, (product) => product.categories)
+  products: Product[];
 }

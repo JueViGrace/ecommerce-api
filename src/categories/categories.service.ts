@@ -14,6 +14,7 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     await this.findExistingCategory(createCategoryDto.name);
+
     return this.categoryRepository.save({
       ...createCategoryDto,
       categoryImage: createCategoryDto.categoryImage.path,
@@ -65,7 +66,7 @@ export class CategoriesService {
 
   async findCategory(id: string) {
     const category = await this.categoryRepository.findOne({
-      where: [{ name: id }],
+      where: [{ codigo: id }],
     });
 
     if (!category) {

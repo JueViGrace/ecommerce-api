@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import {
   IsString,
   IsEmail,
@@ -8,64 +7,53 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Role } from 'src/roles/entities/role.entity';
 import { Roles } from 'src/roles/enums/role.enum';
 
 export class UpdateUserDto {
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   nombre?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   codigo?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsEmail()
   @MinLength(4)
   @IsOptional()
   email?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @MinLength(4)
   @IsOptional()
   password?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsNumber()
   @IsOptional()
   desactivo?: number;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   supervpor?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   ult_sinc?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   version?: string;
 
-  @Transform(({ value }) => value.trim())
   @IsBoolean()
   @IsOptional()
   sesion?: boolean;
 
-  @Transform(({ value }) => value.trim())
   @IsString()
   @IsOptional()
   almacen?: string;
 
   @Auth(Roles.MASTER)
-  @Transform(({ value }) => value.trim())
-  @IsString()
   @IsOptional()
-  roleId?: string;
+  role?: Role;
 }
