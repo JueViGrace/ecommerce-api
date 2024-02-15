@@ -46,6 +46,8 @@ export class OrdersService {
       where: [{ id: createOrderDto.id }],
     });
 
+    await this.cartService.emptyCartProducts(createOrderDto.cart.id);
+
     return `Order ${newOrder.id} created`;
   }
 

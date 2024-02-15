@@ -40,7 +40,8 @@ export class CartService {
 
   async emptyCartProducts(id: string) {
     const cart = await this.findExistingCart(id);
-    return await this.cartWithProductsRepository.remove(cart.cartWithProducts);
+    await this.cartWithProductsRepository.remove(cart.cartWithProducts);
+    return 'Cart emptied';
   }
 
   async deleteOneProduct(id: string, productId: string) {
