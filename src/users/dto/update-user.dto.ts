@@ -7,7 +7,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { Auth } from 'src/auth/decorators/auth.decorator';
-import { Role } from 'src/roles/entities/role.entity';
+import { RoleEntity } from 'src/roles/entities/role.entity';
 import { Roles } from 'src/roles/enums/role.enum';
 
 export class UpdateUserDto {
@@ -55,5 +55,5 @@ export class UpdateUserDto {
 
   @Auth(Roles.MASTER)
   @IsOptional()
-  role?: Role;
+  role?: RoleEntity;
 }

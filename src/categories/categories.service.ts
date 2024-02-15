@@ -2,14 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from './entities/category.entity';
+import { CategoryEntity } from './entities/category.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
@@ -86,7 +86,7 @@ export class CategoriesService {
     return value;
   }
 
-  private resCategory(value: Category) {
+  private resCategory(value: CategoryEntity) {
     return {
       name: value.name,
       categoryImage: value.categoryImage,

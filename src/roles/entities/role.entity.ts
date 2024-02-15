@@ -1,5 +1,5 @@
 import { Roles } from 'src/roles/enums/role.enum';
-import { User } from 'src/users/entities/user.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,10 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class Role {
-  @OneToMany(() => User, (user) => user.role)
-  user: User[];
+@Entity({ name: 'role' })
+export class RoleEntity {
+  @OneToMany(() => UserEntity, (user) => user.role)
+  user: UserEntity[];
 
   @Column({ default: Roles.CLIENTE, primary: true })
   role: string;

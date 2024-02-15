@@ -1,11 +1,11 @@
-import { User } from 'src/users/entities/user.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity({ name: 'estadistica' })
-export class Statistic {
-  @OneToOne(() => User, (user) => user.email)
+export class StatisticEntity {
+  @OneToOne(() => UserEntity, (user) => user.email)
   @JoinColumn()
-  user: User;
+  user: UserEntity;
 
   @Column({ primary: true })
   usuario: string;

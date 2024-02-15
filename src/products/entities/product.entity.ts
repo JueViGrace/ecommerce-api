@@ -1,15 +1,19 @@
-import { Category } from 'src/categories/entities/category.entity';
+import { CartWithProducts } from 'src/cart/entities/cartWithProducts.entity';
+import { CategoryEntity } from 'src/categories/entities/category.entity';
+import { OrderWithProducts } from 'src/orders/entities/orderWithProducts.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'articulo' })
-export class Product {
+export class ProductEntity {
   @Column({ length: 30, primary: true, default: '' })
   codigo: string;
 
@@ -55,7 +59,7 @@ export class Product {
   @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
   precio7: number;
 
-  @Column({ length: 20, default: '' })
+  @Column({ length: 20, default: '', unique: true })
   referencia: string;
 
   @Column({ length: 6, default: '' })
@@ -91,6 +95,22 @@ export class Product {
   @Column({ default: '' })
   productImage: string;
 
-  @ManyToOne(() => Category, (category) => category.products)
-  categories: Category;
+  @ManyToOne(() => CategoryEntity, (category) => category.products)
+  @JoinColumn({ name: 'category', referencedColumnName: 'codigo' })
+  category: CategoryEntity;
+
+  // @ManyToMany(() => Order, (order) => order.products)
+  // order: Order[];
+
+  @OneToMany(
+    () => CartWithProducts,
+    (cartWithProducts) => cartWithProducts.product,
+  )
+  cartWithProducts: CartWithProducts[];
+
+  @OneToMany(
+    () => OrderWithProducts,
+    (orderWithProducts) => orderWithProducts.product,
+  )
+  orderWithProducts: OrderWithProducts[];
 }

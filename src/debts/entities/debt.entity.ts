@@ -1,1 +1,1 @@
-export class Debt {}
+export class DebtEntity {}

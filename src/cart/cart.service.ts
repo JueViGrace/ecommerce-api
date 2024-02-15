@@ -1,44 +1,71 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cart } from './entities/cart.entity';
+import { CartEntity } from './entities/cart.entity';
+import { CartWithProducts } from './entities/cartWithProducts.entity';
+import { UpdateCartWithProductsDto } from './dto/update-cart-products.dto';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class CartService {
   constructor(
-    @InjectRepository(Cart) private readonly cartRepository: Repository<Cart>,
+    @InjectRepository(CartEntity)
+    private readonly cartRepository: Repository<CartEntity>,
+    @InjectRepository(CartWithProducts)
+    private readonly cartWithProductsRepository: Repository<CartWithProducts>,
+    private readonly productService: ProductsService,
   ) {}
-
-  async create(createCartDto: CreateCartDto) {
-    await this.findExistingCart(createCartDto.id);
-    return await this.cartRepository.save(createCartDto);
-  }
 
   async findOne(id: string) {
     return await this.findExistingCart(id);
   }
 
-  async update(id: string, updateCartDto: UpdateCartDto) {
+  async updateCartWithProducts(
+    id: string,
+    updateCartDto: UpdateCartWithProductsDto[],
+  ) {
     await this.findExistingCart(id);
-    return await this.cartRepository.update(id, {
-      ...updateCartDto,
-      fechamodifi: new Date(),
-    });
+
+    for (const item in updateCartDto) {
+      const product = updateCartDto[item];
+      await this.productService.validateProductStock(
+        product.productId,
+        product.quantity,
+      );
+    }
+
+    return await this.cartWithProductsRepository.save(updateCartDto);
   }
 
-  async remove(id: string) {
-    await this.findExistingCart(id);
-    await this.cartRepository.softDelete(id);
-    return `Cart ${id} was deleted.`;
+  async emptyCartProducts(id: string) {
+    const cart = await this.findExistingCart(id);
+    return await this.cartWithProductsRepository.remove(cart.cartWithProducts);
   }
 
-  async emptyCart(id: string) {
+  async deleteOneProduct(id: string, productId: string) {
     await this.findExistingCart(id);
-    return await this.cartRepository.update(id, {
-      productId: '',
+
+    const cart = await this.cartWithProductsRepository.find({
+      where: [{ cartId: id, productId: productId }],
     });
+
+    if (cart.length === 0) {
+      throw new BadRequestException('This product is not currently added');
+    }
+
+    await this.cartWithProductsRepository
+      .createQueryBuilder()
+      .delete()
+      .where('cartId = :cartId', { cartId: id })
+      .andWhere('productId = :productId', { productId: productId })
+      .execute();
+
+    const newCart = await this.cartWithProductsRepository.find({
+      where: [{ cartId: id }],
+    });
+
+    return newCart;
   }
 
   private async findExistingCart(id: string) {
@@ -46,10 +73,33 @@ export class CartService {
       where: [{ id }],
     });
 
-    if (cart) {
-      await this.cartRepository.delete(cart.id);
+    if (!cart) {
+      throw new BadRequestException(`Cart with id ${id} doesn't exists`);
     }
 
     return cart;
+  }
+
+  private async findNotExistingCart(id: string) {
+    const cart = await this.cartRepository.findOne({
+      where: [{ id }],
+    });
+
+    if (cart) {
+      throw new BadRequestException(`Cart with id ${id} already exists`);
+    }
+
+    return cart;
+  }
+
+  async create(createCartDto: CreateCartDto) {
+    await this.findNotExistingCart(createCartDto.id);
+    return await this.cartRepository.save(createCartDto);
+  }
+
+  async remove(id: string) {
+    await this.findExistingCart(id);
+    await this.cartRepository.softDelete(id);
+    return `Cart ${id} was deleted.`;
   }
 }

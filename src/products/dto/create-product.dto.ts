@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Category } from 'src/categories/entities/category.entity';
+import { CategoryEntity } from 'src/categories/entities/category.entity';
 
 export class CreateProductDto {
   @IsString()
@@ -18,7 +18,7 @@ export class CreateProductDto {
   marca: string;
 
   @IsNotEmpty()
-  category: Category;
+  category: CategoryEntity;
 
   @IsString()
   subgrupo: string;

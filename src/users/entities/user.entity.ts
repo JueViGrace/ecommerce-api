@@ -1,5 +1,6 @@
-import { Cart } from 'src/cart/entities/cart.entity';
-import { Role } from 'src/roles/entities/role.entity';
+import { CartEntity } from 'src/cart/entities/cart.entity';
+import { OrderEntity } from 'src/orders/entities/order.entity';
+import { RoleEntity } from 'src/roles/entities/role.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,12 +9,13 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
-export class User {
+export class UserEntity {
   @Column({ length: 30, default: '' })
   nombre: string;
 
@@ -30,7 +32,7 @@ export class User {
   @Column({ default: 0 })
   desactivo: number;
 
-  @Column({ length: 8, default: '' })
+  @Column({ length: 30, default: '' })
   supervpor: string;
 
   @Column({ length: 30, default: '' })
@@ -38,9 +40,6 @@ export class User {
 
   @Column({ type: 'datetime', default: '0001-01-01 01:01:01' })
   ult_sinc: Date;
-
-  @UpdateDateColumn({ select: false })
-  fechamodifi: Date;
 
   @Column({ length: 30, default: '1.0.0' })
   version: string;
@@ -51,16 +50,22 @@ export class User {
   @Column({ default: '' })
   almacen: string;
 
+  @UpdateDateColumn({ select: false })
+  fechamodifi: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => Role, (role) => role.role, { eager: true })
-  @JoinColumn({ name: 'role', referencedColumnName: 'role' })
-  role: Role;
-
-  @OneToOne(() => Cart, (cart) => cart.id)
-  cart: Cart;
-
   @DeleteDateColumn({ select: false })
   deletedAt: Date;
+
+  @ManyToOne(() => RoleEntity, (role) => role.role, { eager: true })
+  @JoinColumn({ name: 'role', referencedColumnName: 'role' })
+  role: RoleEntity;
+
+  @OneToOne(() => CartEntity, (cart) => cart.user)
+  cart: CartEntity;
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: OrderEntity[];
 }

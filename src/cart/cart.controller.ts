@@ -1,6 +1,6 @@
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { UpdateCartWithProductsDto } from './dto/update-cart-products.dto';
 
 @Controller('cart')
 export class CartController {
@@ -12,12 +12,23 @@ export class CartController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartService.update(id, updateCartDto);
+  updateCartWithProducts(
+    @Param('id') id: string,
+    @Body() updateCartDto: UpdateCartWithProductsDto[],
+  ) {
+    return this.cartService.updateCartWithProducts(id, updateCartDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartService.remove(id);
+  emptyCartProducts(@Param('id') id: string) {
+    return this.cartService.emptyCartProducts(id);
+  }
+
+  @Delete(':id/:productId')
+  deleteOneProduct(
+    @Param('id') id: string,
+    @Param('productId') productId: string,
+  ) {
+    return this.cartService.deleteOneProduct(id, productId);
   }
 }

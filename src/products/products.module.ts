@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { ProductEntity } from './entities/product.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { RolesModule } from 'src/roles/roles.module';
 import { MulterModule } from '@nestjs/platform-express';
@@ -11,7 +11,7 @@ import { CategoriesModule } from 'src/categories/categories.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product]),
+    TypeOrmModule.forFeature([ProductEntity]),
     MulterModule.registerAsync({
       useFactory: () => ({
         storage: diskStorage({
@@ -33,5 +33,6 @@ import { CategoriesModule } from 'src/categories/categories.module';
   ],
   controllers: [ProductsController],
   providers: [ProductsService],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

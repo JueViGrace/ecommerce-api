@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserInterface } from 'src/users/interfaces/create-user.interface';
 import { Roles } from 'src/roles/enums/role.enum';
@@ -13,8 +13,8 @@ import { Roles } from 'src/roles/enums/role.enum';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async create(createUserParams: CreateUserInterface) {
@@ -41,17 +41,17 @@ export class UsersService {
   }
 
   async findOne(username: string) {
-    return await this.findUser(username);
+    return await this.validateNotExistingUser(username);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.findUser(id);
+    await this.validateNotExistingUser(id);
 
     return await this.userRepository.update(id, updateUserDto);
   }
 
   async remove(id: string) {
-    await this.findUser(id);
+    await this.validateNotExistingUser(id);
     await this.userRepository.softDelete(id);
     return `User ${id} was deleted.`;
   }
@@ -68,7 +68,7 @@ export class UsersService {
     return user;
   }
 
-  private async findUser(value: string) {
+  private async validateNotExistingUser(value: string) {
     const user = await this.userRepository.findOne({
       where: [{ email: value }, { codigo: value }],
     });

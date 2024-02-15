@@ -1,4 +1,4 @@
-import { Role } from 'src/roles/entities/role.entity';
+import { RoleEntity } from 'src/roles/entities/role.entity';
 
 export interface UserDataInterface {
   nombre: string;
@@ -11,5 +11,5 @@ export interface UserDataInterface {
   version: string;
   sesion: boolean;
   almacen: string;
-  role: Role;
+  role: RoleEntity;
 }

@@ -1,5 +1,4 @@
-import { Product } from './../../products/entities/product.entity';
-import { User } from './../../users/entities/user.entity';
+import { UserEntity } from './../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,22 +9,16 @@ import {
   OneToOne,
   UpdateDateColumn,
 } from 'typeorm';
+import { CartWithProducts } from './cartWithProducts.entity';
 
-@Entity()
-export class Cart {
-  @OneToOne(() => User, (user) => user.email)
+@Entity({ name: 'cart' })
+export class CartEntity {
+  @OneToOne(() => UserEntity, (user) => user.cart, { eager: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'email' })
-  user: User;
+  user: UserEntity;
 
   @Column({ primary: true })
   id: string;
-
-  @OneToMany(() => Product, (product) => product.codigo)
-  @JoinColumn({ name: 'productId', referencedColumnName: 'codigo' })
-  products: Product[];
-
-  @Column({ default: '' })
-  productId: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -38,4 +31,12 @@ export class Cart {
 
   @Column({ default: 0 })
   status: number;
+
+  @OneToMany(
+    () => CartWithProducts,
+    (cartWithProducts) => cartWithProducts.cart,
+    { eager: true },
+  )
+  @JoinColumn({ name: 'productId', referencedColumnName: 'codigo' })
+  cartWithProducts: CartWithProducts[];
 }

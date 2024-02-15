@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateStatisticDto } from './dto/create-statistic.dto';
 import { UpdateStatisticDto } from './dto/update-statistic.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Statistic } from './entities/statistic.entity';
+import { StatisticEntity } from './entities/statistic.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class StatisticsService {
   constructor(
-    @InjectRepository(Statistic)
-    private readonly statisticRepository: Repository<Statistic>,
+    @InjectRepository(StatisticEntity)
+    private readonly statisticRepository: Repository<StatisticEntity>,
     private readonly userService: UsersService,
   ) {}
 

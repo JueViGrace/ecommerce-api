@@ -4,13 +4,13 @@ import { CategoriesController } from './categories.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Category } from './entities/category.entity';
+import { CategoryEntity } from './entities/category.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { RolesModule } from 'src/roles/roles.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Category]),
+    TypeOrmModule.forFeature([CategoryEntity]),
     MulterModule.registerAsync({
       useFactory: () => ({
         storage: diskStorage({

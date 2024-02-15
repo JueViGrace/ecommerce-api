@@ -3,14 +3,14 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Product } from './entities/product.entity';
+import { ProductEntity } from './entities/product.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>,
     private readonly categoriesService: CategoriesService,
   ) {}
 
@@ -18,6 +18,7 @@ export class ProductsService {
     await this.validateExistingProduct(
       createProductDto.codigo,
       createProductDto.category.codigo,
+      createProductDto.referencia,
     );
 
     const product = this.productRepository.create(createProductDto);
@@ -49,14 +50,20 @@ export class ProductsService {
     return await this.productRepository.softDelete(id);
   }
 
-  async validateExistingProduct(id: string, category: string) {
+  async validateExistingProduct(
+    id: string,
+    category: string,
+    referencia: string,
+  ) {
     await this.categoriesService.findCategory(category);
     const product = await this.productRepository.findOne({
-      where: [{ codigo: id }],
+      where: [{ codigo: id }, { referencia: referencia }],
     });
 
     if (product) {
-      throw new BadRequestException(`Product ${id} already exists`);
+      throw new BadRequestException(
+        `Product with id "${id}" or reference "${referencia}" already exists`,
+      );
     }
 
     return product;
@@ -74,6 +81,20 @@ export class ProductsService {
     return product;
   }
 
+  async validateProductStock(id: string, quantity: number) {
+    const product = await this.productRepository.findOne({
+      where: [{ codigo: id }],
+    });
+
+    if (!product) {
+      throw new BadRequestException(`Product ${id} doesn't exists`);
+    }
+
+    if (product.existencia === 0 && product.existencia < quantity) {
+      throw new BadRequestException(`Not enough stock`);
+    }
+  }
+
   private getProducts(value: any[]) {
     if (Array.isArray(value)) {
       value.forEach((element, index) => {
@@ -84,7 +105,7 @@ export class ProductsService {
     return value;
   }
 
-  private trim(value: Product) {
+  private trim(value: ProductEntity) {
     const product = {
       codigo: value.codigo.trim(),
       comprometido: value.comprometido,

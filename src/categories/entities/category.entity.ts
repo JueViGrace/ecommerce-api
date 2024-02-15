@@ -1,4 +1,4 @@
-import { Product } from 'src/products/entities/product.entity';
+import { ProductEntity } from 'src/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'categorias' })
-export class Category {
+export class CategoryEntity {
   @Column({ default: '', primary: true })
   codigo: string;
 
@@ -28,6 +28,6 @@ export class Category {
   @DeleteDateColumn({ select: false })
   deletedAt: Date;
 
-  @OneToMany(() => Product, (product) => product.categories)
-  products: Product[];
+  @OneToMany(() => ProductEntity, (product) => product.category)
+  products: ProductEntity[];
 }
