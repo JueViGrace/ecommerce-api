@@ -95,6 +95,15 @@ export class ProductsService {
     }
   }
 
+  async removeStock(id: string, quantity: number) {
+    const product = await this.validateNotExistingProduct(id);
+
+    await this.productRepository.update(id, {
+      existencia: product.existencia - quantity,
+      comprometido: quantity,
+    });
+  }
+
   private getProducts(value: any[]) {
     if (Array.isArray(value)) {
       value.forEach((element, index) => {

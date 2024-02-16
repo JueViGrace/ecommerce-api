@@ -5,8 +5,8 @@ import * as bcryptjs from 'bcryptjs';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from './bcrypt.service';
-import { UserActiveInterface } from 'src/users/interfaces/user-active.interface';
-import { UserDataInterface } from 'src/users/interfaces/user-data.interface';
+import { UserActiveInterface } from 'src/shared/interfaces/user/user-active.interface';
+import { UserDataInterface } from 'src/shared/interfaces/user/user-data.interface';
 import { CartService } from 'src/cart/cart.service';
 
 @Injectable()
@@ -47,19 +47,20 @@ export class AuthService {
       loginDto.password,
       user.password,
     );
+
     if (!isPasswordValid) {
       throw new UnauthorizedException('Email or password is wrong');
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ..._user } = user;
+    const { password, role, ..._user } = user;
 
     return this.generateJWT(_user);
   }
 
   async generateJWT(user: UserDataInterface) {
     const payload: UserActiveInterface = {
-      role: user.role.role,
+      role: user.roleId,
       email: user.email,
     };
 

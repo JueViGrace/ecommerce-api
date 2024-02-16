@@ -35,12 +35,13 @@ import { AllExceptionsFilter } from 'src/shared/filters/exception.filter';
     CartModule,
   ],
   controllers: [AppController],
-  // providers: [
-  //   {
-  //     provide: APP_FILTER,
-  //     useClass: AllExceptionsFilter,
-  //   },
-  // ],
+  providers: [
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: AllExceptionsFilter,
+    // },
+    TypeOrmService,
+  ],
 })
 export class AppModule {
   /* configure(consumer: MiddlewareConsumer) {

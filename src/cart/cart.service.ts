@@ -3,7 +3,7 @@ import { CreateCartDto } from './dto/create-cart.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CartEntity } from './entities/cart.entity';
-import { CartWithProducts } from './entities/cartWithProducts.entity';
+import { CartWithProductsEntity } from './entities/cartWithProducts.entity';
 import { UpdateCartWithProductsDto } from './dto/update-cart-products.dto';
 import { ProductsService } from 'src/products/products.service';
 
@@ -12,8 +12,8 @@ export class CartService {
   constructor(
     @InjectRepository(CartEntity)
     private readonly cartRepository: Repository<CartEntity>,
-    @InjectRepository(CartWithProducts)
-    private readonly cartWithProductsRepository: Repository<CartWithProducts>,
+    @InjectRepository(CartWithProductsEntity)
+    private readonly cartWithProductsRepository: Repository<CartWithProductsEntity>,
     private readonly productService: ProductsService,
   ) {}
 
@@ -33,15 +33,37 @@ export class CartService {
         product.productId,
         product.quantity,
       );
+      await this.cartWithProductsRepository.save({
+        cartId: id,
+        productId: product.productId,
+        quantity: product.quantity,
+      });
     }
 
-    return await this.cartWithProductsRepository.save(updateCartDto);
+    return 'Saved!';
   }
 
   async emptyCartProducts(id: string) {
     const cart = await this.findExistingCart(id);
     await this.cartWithProductsRepository.remove(cart.cartWithProducts);
     return 'Cart emptied';
+  }
+
+  async enroll(id: string) {
+    const cart = await this.findExistingCart(id);
+
+    for (const item in cart.cartWithProducts) {
+      const cartProducts = cart.cartWithProducts[item];
+
+      await this.productService.removeStock(
+        cartProducts.productId,
+        cartProducts.quantity,
+      );
+    }
+
+    await this.cartWithProductsRepository.remove(cart.cartWithProducts);
+
+    return 'Ok!';
   }
 
   async deleteOneProduct(id: string, productId: string) {

@@ -19,7 +19,7 @@ async function bootstrap() {
 
   appSetup(app);
 
-  await app.listen(port, host);
+  await app.listen(port);
 }
 bootstrap().then(() => {
   console.log(`Listening on http://${host}:${port}

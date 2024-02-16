@@ -1,6 +1,5 @@
-import { CartWithProducts } from 'src/cart/entities/cartWithProducts.entity';
+import { CartWithProductsEntity } from 'src/cart/entities/cartWithProducts.entity';
 import { CategoryEntity } from 'src/categories/entities/category.entity';
-import { OrderWithProducts } from 'src/orders/entities/orderWithProducts.entity';
 import {
   Column,
   CreateDateColumn,
@@ -12,24 +11,24 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'articulo' })
+@Entity({ name: 'web_product' })
 export class ProductEntity {
   @Column({ length: 30, primary: true, default: '' })
   codigo: string;
 
-  @Column({ type: 'double', precision: 24, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 24, scale: 0, default: 0 })
   comprometido: number;
 
-  @Column({ type: 'double', precision: 4, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 4, scale: 2, default: 0 })
   dctotope: number;
 
-  @Column({ type: 'double', precision: 4, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 4, scale: 0, default: 0 })
   discont: number;
 
   @Column({ type: 'char', length: 1, default: '' })
   enpreventa: string;
 
-  @Column({ type: 'double', precision: 20, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 0, default: 0 })
   existencia: number;
 
   @Column({ length: 20, default: '' })
@@ -38,25 +37,25 @@ export class ProductEntity {
   @Column({ length: 150, default: '' })
   nombre: string;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio1: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio2: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio3: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio4: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio5: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio6: number;
 
-  @Column({ type: 'double', precision: 20, scale: 7, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 7, default: 0 })
   precio7: number;
 
   @Column({ length: 20, default: '', unique: true })
@@ -68,13 +67,13 @@ export class ProductEntity {
   @Column({ length: 15, default: '' })
   unidad: string;
 
-  @Column({ type: 'double', precision: 20, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 0, default: 0 })
   vta_max: number;
 
-  @Column({ type: 'double', precision: 20, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 20, scale: 0, default: 0 })
   vta_min: number;
 
-  @Column({ type: 'double', precision: 15, scale: 0, default: 0 })
+  @Column({ type: 'decimal', precision: 15, scale: 0, default: 0 })
   vta_minenx: number;
 
   @Column({ default: 0 })
@@ -83,13 +82,13 @@ export class ProductEntity {
   @Column({ default: 0 })
   vta_solone: number;
 
-  @UpdateDateColumn({ select: false })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
   @DeleteDateColumn({ select: false })
   deletedAt: Date;
 
-  @CreateDateColumn({ select: false })
+  @CreateDateColumn()
   createdAt: Date;
 
   @Column({ default: '' })
@@ -99,18 +98,9 @@ export class ProductEntity {
   @JoinColumn({ name: 'category', referencedColumnName: 'codigo' })
   category: CategoryEntity;
 
-  // @ManyToMany(() => Order, (order) => order.products)
-  // order: Order[];
-
   @OneToMany(
-    () => CartWithProducts,
+    () => CartWithProductsEntity,
     (cartWithProducts) => cartWithProducts.product,
   )
-  cartWithProducts: CartWithProducts[];
-
-  @OneToMany(
-    () => OrderWithProducts,
-    (orderWithProducts) => orderWithProducts.product,
-  )
-  orderWithProducts: OrderWithProducts[];
+  cartWithProducts: CartWithProductsEntity[];
 }

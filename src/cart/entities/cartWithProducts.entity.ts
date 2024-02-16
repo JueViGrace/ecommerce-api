@@ -2,12 +2,12 @@ import { CartEntity } from 'src/cart/entities/cart.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-@Entity()
-export class CartWithProducts {
-  @Column({ primary: true, default: '' })
+@Entity({ name: 'web_cart_with_products' })
+export class CartWithProductsEntity {
+  @Column({ length: 30, primary: true, default: '' })
   productId: string;
 
-  @Column({ primary: true, default: '' })
+  @Column({ length: 30, primary: true, default: '' })
   cartId: string;
 
   @Column({ default: 0 })

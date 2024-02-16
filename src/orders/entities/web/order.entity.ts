@@ -10,12 +10,15 @@ import {
   OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderWithProducts } from './orderWithProducts.entity';
+import { OrderWithProductsEntity } from './orderWithProducts.entity';
 
-@Entity({ name: 'pedido' })
+@Entity({ name: 'web_orders' })
 export class OrderEntity {
   @Column({ primary: true, default: '' })
   id: string;
+
+  @Column({ length: 30, default: '' })
+  userId: string;
 
   @UpdateDateColumn({ select: false })
   fechamodifi: Date;
@@ -27,13 +30,14 @@ export class OrderEntity {
   deletedAt: Date;
 
   @OneToMany(
-    () => OrderWithProducts,
+    () => OrderWithProductsEntity,
     (orderWithProducts) => orderWithProducts.order,
+    { eager: true },
   )
   @JoinTable()
-  orderWithProducts: OrderWithProducts[];
+  orderWithProducts: OrderWithProductsEntity[];
 
-  @ManyToOne(() => UserEntity, (user) => user.orders)
-  @JoinColumn({ name: 'user', referencedColumnName: 'email' })
+  @ManyToOne(() => UserEntity, (user) => user.orders, { eager: true })
+  @JoinColumn({ name: 'userId', referencedColumnName: 'email' })
   user: UserEntity;
 }

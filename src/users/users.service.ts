@@ -7,7 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserInterface } from 'src/users/interfaces/create-user.interface';
+import { CreateUserInterface } from 'src/shared/interfaces/user/create-user.interface';
 import { Roles } from 'src/roles/enums/role.enum';
 
 @Injectable()
@@ -20,9 +20,7 @@ export class UsersService {
   async create(createUserParams: CreateUserInterface) {
     return this.userRepository.save({
       ...createUserParams,
-      role: {
-        role: Roles.CLIENTE,
-      },
+      roleId: Roles.CLIENTE,
     });
   }
 
@@ -96,6 +94,7 @@ export class UsersService {
         'sesion',
         'almacen',
         'password',
+        'roleId',
       ],
     });
 

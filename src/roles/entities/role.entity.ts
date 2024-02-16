@@ -9,20 +9,20 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'role' })
+@Entity({ name: 'web_role' })
 export class RoleEntity {
   @OneToMany(() => UserEntity, (user) => user.role)
   user: UserEntity[];
 
-  @Column({ default: Roles.CLIENTE, primary: true })
+  @Column({ length: 20, default: Roles.CLIENTE, primary: true })
   role: string;
 
-  @UpdateDateColumn({ select: false })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
-  @CreateDateColumn({ select: false })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @DeleteDateColumn({ select: false })
+  @DeleteDateColumn()
   deletedAt: Date;
 }

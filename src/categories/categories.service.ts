@@ -15,10 +15,12 @@ export class CategoriesService {
   async create(createCategoryDto: CreateCategoryDto) {
     await this.findExistingCategory(createCategoryDto.name);
 
-    return this.categoryRepository.save({
+    await this.categoryRepository.save({
       ...createCategoryDto,
       categoryImage: createCategoryDto.categoryImage.path,
     });
+
+    return `Category ${createCategoryDto.name} created`;
   }
 
   async findAll() {

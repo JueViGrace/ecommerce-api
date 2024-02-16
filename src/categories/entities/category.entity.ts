@@ -8,9 +8,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'categorias' })
+@Entity({ name: 'web_categories' })
 export class CategoryEntity {
-  @Column({ default: '', primary: true })
+  @Column({ length: 30, default: '', primary: true })
   codigo: string;
 
   @Column({ length: 30, default: '' })
@@ -19,10 +19,10 @@ export class CategoryEntity {
   @Column({ default: '' })
   categoryImage: string;
 
-  @UpdateDateColumn({ select: false })
+  @UpdateDateColumn()
   fechamodifi: Date;
 
-  @CreateDateColumn({ select: false })
+  @CreateDateColumn()
   createdAt: Date;
 
   @DeleteDateColumn({ select: false })

@@ -1,5 +1,5 @@
 import { CartEntity } from 'src/cart/entities/cart.entity';
-import { OrderEntity } from 'src/orders/entities/order.entity';
+import { OrderEntity } from 'src/orders/entities/web/order.entity';
 import { RoleEntity } from 'src/roles/entities/role.entity';
 import {
   Column,
@@ -14,7 +14,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'usuarios' })
+@Entity({ name: 'web_users' })
 export class UserEntity {
   @Column({ length: 30, default: '' })
   nombre: string;
@@ -47,10 +47,13 @@ export class UserEntity {
   @Column({ default: false })
   sesion: boolean;
 
-  @Column({ default: '' })
+  @Column({ length: 10, default: '0' })
   almacen: string;
 
-  @UpdateDateColumn({ select: false })
+  @Column({ length: 20, default: '' })
+  roleId: string;
+
+  @UpdateDateColumn()
   fechamodifi: Date;
 
   @CreateDateColumn()
@@ -59,8 +62,8 @@ export class UserEntity {
   @DeleteDateColumn({ select: false })
   deletedAt: Date;
 
-  @ManyToOne(() => RoleEntity, (role) => role.role, { eager: true })
-  @JoinColumn({ name: 'role', referencedColumnName: 'role' })
+  @ManyToOne(() => RoleEntity, (role) => role.role)
+  @JoinColumn({ name: 'roleId', referencedColumnName: 'role' })
   role: RoleEntity;
 
   @OneToOne(() => CartEntity, (cart) => cart.user)

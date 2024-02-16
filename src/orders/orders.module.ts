@@ -2,15 +2,22 @@ import { Module } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OrderEntity } from './entities/order.entity';
+import { OrderEntity } from './entities/web/order.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { RolesModule } from 'src/roles/roles.module';
-import { OrderWithProducts } from './entities/orderWithProducts.entity';
+import { OrderWithProductsEntity } from './entities/web/orderWithProducts.entity';
 import { CartModule } from 'src/cart/cart.module';
+import { PedidoEntity } from './entities/shared/pedido.entity';
+import { LineasPedidoEntity } from './entities/shared/pedido-lineas.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([OrderEntity, OrderWithProducts]),
+    TypeOrmModule.forFeature([
+      OrderEntity,
+      OrderWithProductsEntity,
+      PedidoEntity,
+      LineasPedidoEntity,
+    ]),
     AuthModule,
     RolesModule,
     CartModule,

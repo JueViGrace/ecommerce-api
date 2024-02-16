@@ -1,4 +1,4 @@
-import { UserEntity } from './../../users/entities/user.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,15 +9,15 @@ import {
   OneToOne,
   UpdateDateColumn,
 } from 'typeorm';
-import { CartWithProducts } from './cartWithProducts.entity';
+import { CartWithProductsEntity } from './cartWithProducts.entity';
 
-@Entity({ name: 'cart' })
+@Entity({ name: 'web_cart' })
 export class CartEntity {
   @OneToOne(() => UserEntity, (user) => user.cart, { eager: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'email' })
   user: UserEntity;
 
-  @Column({ primary: true })
+  @Column({ length: 30, primary: true })
   id: string;
 
   @CreateDateColumn()
@@ -26,17 +26,17 @@ export class CartEntity {
   @UpdateDateColumn()
   fechamodifi: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
 
   @Column({ default: 0 })
   status: number;
 
   @OneToMany(
-    () => CartWithProducts,
+    () => CartWithProductsEntity,
     (cartWithProducts) => cartWithProducts.cart,
     { eager: true },
   )
   @JoinColumn({ name: 'productId', referencedColumnName: 'codigo' })
-  cartWithProducts: CartWithProducts[];
+  cartWithProducts: CartWithProductsEntity[];
 }
