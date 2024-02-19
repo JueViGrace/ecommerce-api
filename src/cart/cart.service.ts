@@ -17,6 +17,11 @@ export class CartService {
     private readonly productService: ProductsService,
   ) {}
 
+  async create(createCartDto: CreateCartDto) {
+    await this.findNotExistingCart(createCartDto.id);
+    return await this.cartRepository.save(createCartDto);
+  }
+
   async findOne(id: string) {
     return await this.findExistingCart(id);
   }
@@ -43,27 +48,16 @@ export class CartService {
     return 'Saved!';
   }
 
+  async remove(id: string) {
+    await this.findExistingCart(id);
+    await this.cartRepository.softDelete(id);
+    return `Cart ${id} was deleted.`;
+  }
+
   async emptyCartProducts(id: string) {
     const cart = await this.findExistingCart(id);
     await this.cartWithProductsRepository.remove(cart.cartWithProducts);
     return 'Cart emptied';
-  }
-
-  async enroll(id: string) {
-    const cart = await this.findExistingCart(id);
-
-    for (const item in cart.cartWithProducts) {
-      const cartProducts = cart.cartWithProducts[item];
-
-      await this.productService.removeStock(
-        cartProducts.productId,
-        cartProducts.quantity,
-      );
-    }
-
-    await this.cartWithProductsRepository.remove(cart.cartWithProducts);
-
-    return 'Ok!';
   }
 
   async deleteOneProduct(id: string, productId: string) {
@@ -91,6 +85,16 @@ export class CartService {
     return newCart;
   }
 
+  async enroll(id: string) {
+    const cart = await this.findExistingCart(id);
+
+    await this.cartWithProductsRepository.remove(cart.cartWithProducts);
+
+    return 'Ok!';
+  }
+
+  /* ----------- Validation methods ----------- */
+
   private async findExistingCart(id: string) {
     const cart = await this.cartRepository.findOne({
       where: [{ id }],
@@ -113,16 +117,5 @@ export class CartService {
     }
 
     return cart;
-  }
-
-  async create(createCartDto: CreateCartDto) {
-    await this.findNotExistingCart(createCartDto.id);
-    return await this.cartRepository.save(createCartDto);
-  }
-
-  async remove(id: string) {
-    await this.findExistingCart(id);
-    await this.cartRepository.softDelete(id);
-    return `Cart ${id} was deleted.`;
   }
 }

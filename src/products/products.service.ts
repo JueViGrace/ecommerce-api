@@ -50,6 +50,8 @@ export class ProductsService {
     return await this.productRepository.softDelete(id);
   }
 
+  /* ----------- Validation methods ----------- */
+
   async validateExistingProduct(
     id: string,
     category: string,
@@ -82,27 +84,33 @@ export class ProductsService {
   }
 
   async validateProductStock(id: string, quantity: number) {
-    const product = await this.productRepository.findOne({
-      where: [{ codigo: id }],
-    });
-
-    if (!product) {
-      throw new BadRequestException(`Product ${id} doesn't exists`);
-    }
-
-    if (product.existencia === 0 && product.existencia < quantity) {
-      throw new BadRequestException(`Not enough stock`);
-    }
-  }
-
-  async removeStock(id: string, quantity: number) {
     const product = await this.validateNotExistingProduct(id);
 
-    await this.productRepository.update(id, {
-      existencia: product.existencia - quantity,
-      comprometido: quantity,
-    });
+    if (
+      product.existencia === 0 ||
+      product.existencia < quantity ||
+      product.existencia - quantity < 0
+    ) {
+      throw new BadRequestException(`Not enough stock of ${id}`);
+    }
   }
+
+  // async removeComprometido(id: string, quantity: number) {
+  //   const product = await this.validateNotExistingProduct(id);
+
+  //   await this.productRepository.update(id, {
+  //     comprometido: Number(product.comprometido) - Number(quantity),
+  //   });
+  // }
+
+  // async updateStock(id: string, quantity: number) {
+  //   const product = await this.validateNotExistingProduct(id);
+
+  //   await this.productRepository.update(id, {
+  //     existencia: Number(product.existencia) + Number(quantity),
+  //     comprometido: Number(product.comprometido) - Number(quantity),
+  //   });
+  // }
 
   private getProducts(value: any[]) {
     if (Array.isArray(value)) {

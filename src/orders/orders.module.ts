@@ -9,6 +9,7 @@ import { OrderWithProductsEntity } from './entities/web/orderWithProducts.entity
 import { CartModule } from 'src/cart/cart.module';
 import { PedidoEntity } from './entities/shared/pedido.entity';
 import { LineasPedidoEntity } from './entities/shared/pedido-lineas.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LineasPedidoEntity } from './entities/shared/pedido-lineas.entity';
       OrderWithProductsEntity,
       PedidoEntity,
       LineasPedidoEntity,
+      UserEntity,
     ]),
     AuthModule,
     RolesModule,

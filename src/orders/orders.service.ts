@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   HttpStatus,
   Injectable,
   NotFoundException,
@@ -15,6 +16,9 @@ import { CreatePedido } from 'src/shared/interfaces/pedidos/create-pedido.interf
 import { Pedido } from 'src/shared/interfaces/pedidos/pedido.interface';
 import { LineasPedidoEntity } from './entities/shared/pedido-lineas.entity';
 import { PedidoEntity } from './entities/shared/pedido.entity';
+import { DocTypes } from 'src/shared/enums/doct-types.enum';
+import { Roles } from 'src/roles/enums/role.enum';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class OrdersService {
@@ -27,6 +31,8 @@ export class OrdersService {
     private readonly pedidoRepository: Repository<PedidoEntity>,
     @InjectRepository(LineasPedidoEntity)
     private readonly lineasPedidoRepository: Repository<LineasPedidoEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
     private readonly cartService: CartService,
   ) {}
 
@@ -34,13 +40,13 @@ export class OrdersService {
     await this.validateExistingOrder(createOrderDto.id);
     const cart = await this.cartService.findOne(createOrderDto.cartId);
 
+    const order = await this.orderRepository.save({
+      id: createOrderDto.id,
+      userId: cart.user.email,
+    });
+
     for (const item in cart.cartWithProducts) {
       const cartProducts = cart.cartWithProducts[item];
-
-      const order = await this.orderRepository.save({
-        id: createOrderDto.id,
-        userId: cart.user.email,
-      });
 
       await this.orderWithProductsRepository.save({
         orderId: order.id,
@@ -53,7 +59,23 @@ export class OrdersService {
       where: [{ id: createOrderDto.id }],
     });
 
-    await this.cartService.enroll(cart.id);
+    if (newOrder.user.roleId === Roles.CLIENTE) {
+      const vendedor = await this.userRepository.findOne({
+        where: [{ codigo: newOrder.user.supervpor, roleId: Roles.VENDEDOR }],
+      });
+      if (!vendedor) {
+        throw new NotFoundException(`Not vendor found`);
+      }
+      await this.pedidoRepository.save({
+        ...newOrder,
+        kti_ndoc: newOrder.id,
+        kti_codcli: newOrder.user.codigo,
+        kti_nombrecli: newOrder.user.nombre,
+        kti_codven: vendedor.codigo,
+        kti_docsol: DocTypes.FAC,
+        kti_condicion: '2',
+      });
+    }
 
     return `Order ${newOrder.id} created`;
   }

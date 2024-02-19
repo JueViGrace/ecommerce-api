@@ -19,7 +19,7 @@ import { CreatePedidoDto } from './dto/shared/create-pedido.dto';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Auth(Roles.CLIENTE || Roles.COORDINADOR || Roles.VENDEDOR || Roles.MASTER)
+  @Auth(Roles.CLIENTE || Roles.VENDEDOR || Roles.MASTER)
   @Post('create')
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
